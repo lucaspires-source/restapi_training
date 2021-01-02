@@ -10,6 +10,12 @@ const courses = [
     {id:2, name:'Boliche'},
     {id:3, name:'Break Dance'},
 ];
+//Function for validate inputs
+const validation = (course) =>{
+    const schema =Joi.object({ name: Joi.string() .min(2) .required()})
+    return schema.validate(course)
+}
+//handling GET http methods
 app.get('/', (req, res) => {
   res.send('server is just ready');
 });
@@ -22,10 +28,12 @@ app.get('/api/courses', (req, res) => {
     if (!course) res.status(404).send('The course was not found')
     else res.send(course)
   })
+
+
+//handling get http methods
   app.post('/api/courses',(req,res) =>{
 
-    const schema =Joi.object({ name: Joi.string() .min(2) .required()})
-    const result = schema.validate(req.body)
+    const result = validation(req.body)
     if(result.error) {
         res.status(400).send(result.error.details[0].message)
         return;
@@ -39,6 +47,24 @@ app.get('/api/courses', (req, res) => {
       courses.push(course)
       res.send(course);
   })
+
+//handling PUT http methods
+  app.put('/api/courses/:id',(req,res) =>{
+    const course  = courses.find(c => c.id === parseInt(req.params.id))
+    if (!course) res.status(404).send('The course was not found')
+    const result = validation(req.body)
+    if(result.error) {
+        res.status(400).send(result.error.details[0].message)
+        return;
+    }
+    course.name = req.body.name
+    res.send(course)    
+
+})
+
+app.delete('/api/courses/:id',(req,res) =>{
+
+})
 app.listen(port, () => {
   console.log(`server at http://localhost:${port} ... `);
 });
