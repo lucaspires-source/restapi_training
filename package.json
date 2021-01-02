@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Restful API to train CRUD METHODS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucaspires-source/restapi_training.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucaspires-source/restapi_training/issues"
+  },
+  "homepage": "https://github.com/lucaspires-source/restapi_training#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.6"
+  }
+}
