@@ -1,15 +1,15 @@
-import express from "express";
-
+import express from 'express';
+import Joi from 'joi';
 
 
 const app = express();
 app.use(express.json())
 const port = process.env.PORT || 5000;
 const courses = [
-    {id:1,name:"Pescaria"},
-    {id:2, name:"Boliche"},
-    {id:3, name:"Break Dance"},
-]
+    {id:1, name:'Pescaria'},
+    {id:2, name:'Boliche'},
+    {id:3, name:'Break Dance'},
+];
 app.get('/', (req, res) => {
   res.send('server is just ready');
 });
@@ -23,11 +23,20 @@ app.get('/api/courses', (req, res) => {
     else res.send(course)
   })
   app.post('/api/courses',(req,res) =>{
-      const course = {
+
+    const schema =Joi.object({ name: Joi.string() .min(2) .required()})
+    const result = schema.validate(req.body)
+    if(result.error) {
+        res.status(400).send(result.error.details[0].message)
+        return;
+    }
+    
+    
+    const course = {
           id: courses.length + 1,
-          name:res.body.name
+          name:req.body.name
       }
-      cousers.push(course)
+      courses.push(course)
       res.send(course);
   })
 app.listen(port, () => {
